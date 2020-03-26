@@ -1,83 +1,110 @@
-class ListNode { 
-    // constructor 
-    constructor(val) 
-    { 
-        this.val = val; 
-        this.next = null
-    } 
-}
-
-function addTwoNumbers (l1, l2) 
-{
-    var n1 = [];
-    var n2 = [];
-    var lst;
-    var head;
-    var ptr;
-    var result;
-    // console.log(l1);
-    // console.log('------------');
-
-    ptr = l1;
-    while (ptr != null)
-    {
-        n1.push(ptr.val);
-        ptr = ptr.next;
-    }
-
-    ptr = l2;
-    while (ptr != null)
-    {
-        n2.push(ptr.val);
-        ptr = ptr.next;
-    }
-
-    first_1 = 0.0;
-    for (var i = (n1.length-1); i >= 0; i--)
-    {
-      first_1 *= 10;
-      first_1 += n1[i];
-    }
-
-    first_2 = 0.0;
-    for (var i = (n2.length-1); i >= 0; i--)
-    {
-      first_2 *= 10;
-      first_2 += n2[i];
-    }
-    
-    result = (first_1+first_2).toString();
-    result = (Array.from(result)).reverse();
-
-    return (linkedListFromArray(result));
-}
 
 
-function linkedListFromArray(arr)
-{
-  let head, list = null;
-  
-  for (var i = 0; i < arr.length; i++)
+ function ListNode(val) {
+     this.val = val;
+     this.next = null;
+ }
+
+ function reversedListToNumber(list) 
+ {
+  let n1 
+  let lst = list;
+  while (lst) 
   {
-    if (i == 0)
-    {
-      head = list = new ListNode(arr[i]);
-      continue;
-    } 
-    list.next = new ListNode(arr[i]);
-    list = list.next;
+    n1 += lst.val.toString();
+    lst = lst.next;
   }
 
-  return (head);
+  n1 = n1.split("");
+  n1.reverse();
+  n1 = n1.join("");
+  return parseInt(n1);
 }
 
+function createListFromArray(array)
+{
+  arr = [];
+  for (var i = 0; i < array.length; i++)
+    arr.push(new ListNode(array[i]));
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (i == (arr.length-1))
+      continue;
+    arr[i].next = arr[i+1];
+  }
+  return (arr);
+}
 
-lst1 = linkedListFromArray([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]);
-// lst1 = linkedListFromArray([3,4,5]);
-lst2 = linkedListFromArray([5,6,4]);
-// console.log(lst1, lst2);
+function numberToReversedList(nbr)
+{
+  nbr = nbr.toString()
+  nbr = nbr.split("");
+  nbr.reverse();
+  return (createListFromArray(nbr));
+}
 
-addTwoNumbers(lst1, lst2)
-// console.log(addTwoNumbers(lst1, lst2));
+var addTwoNumbers = function(l1, l2) 
+{
+    let n1 = reversedListToNumber(l1);
+    let n2 = reversedListToNumber(l2);
+    var result = numberToReversedList(n1+n2);
+    return (result[0]);
+}
+    
+// var addTwoNumbers = function(l1, l2) {
+//   let head, c= head,  one = l1, two = l2, carry = 0;
 
-console.log(1000000000000000000000000000001);
+
+//   while(one || two) {
+//       let x = 0, y = 0, sum = carry, next, tmpNode;
+//       if(one.val){
+//           x = one.val;
+//       }
+//       if(two.val){
+//           y = two.val;
+//       }
+//       sum += x + y;
+//       carry = Math.floor(sum / 10);
+//       next = sum % 10;
+//       tmpNode = new ListNode(next);
+//       if(head == null){
+//           head =  new ListNode(next);
+//           c = head;
+//       }else{
+//           c.next = tmpNode;
+//           c = c.next;
+//       }
+//     if(one.next != null){
+//       one = one.next;
+//     }else{
+//       one = false
+//     }
+//     if(two.next != null){
+//       two = two.next;
+//     }else{
+//       two = false
+//     }
+//   }
+//   if(carry > 0){
+//       let tmpNode= new ListNode(carry);
+//       c.next = tmpNode;
+//   }
+//   return head;
+// };
+let l1 = new ListNode(2);
+let l2 = new ListNode(4);
+let l3 = new ListNode(3);
+
+l1.next = l2;
+l2.next = l3;
+
+
+let l4 = new ListNode(5);
+let l5 = new ListNode(6);
+let l6 = new ListNode(4);
+
+l4.next = l5;
+l5.next = l6;
+
+console.log(addTwoNumbers(l1, l4));
+
