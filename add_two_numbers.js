@@ -1,110 +1,75 @@
+// You are given two non-empty linked lists representing two non-negative integers. 
+// The digits are stored in reverse order and each of their nodes contain a single digit. 
+// Add the two numbers and return it as a linked list.
+
+// You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+// Example:
+
+// Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+// Output: 7 -> 0 -> 8
+// Explanation: 342 + 465 = 807.
 
 
- function ListNode(val) {
-     this.val = val;
-     this.next = null;
- }
+function ListNode(val, next) {
+  this.val = (val===undefined ? 0 : val)
+  this.next = (next===undefined ? null : next)
+}
 
- function reversedListToNumber(list) 
- {
-  let n1 
-  let lst = list;
-  while (lst) 
-  {
-    n1 += lst.val.toString();
-    lst = lst.next;
+var addTwoNumbers = (l1, l2) => {
+    var nbr = (reversed_list_int_representation(l1) +
+              reversed_list_int_representation(l2));
+
+    return (int_to_reversed_list(nbr));
+}
+
+const reversed_list_int_representation = lst => {
+  var nbr_arr = [], 
+      node = lst;
+
+  while (node) {
+    nbr_arr.push(node.val);
+    node = node.next;
+  }
+  
+  var result = nbr_arr.reverse().toString().replace(/,/g,'');
+  return parseInt(result, 10);
+}
+
+const int_to_reversed_list = n => {
+  n = n.toString().split('').reverse();  
+  var nodes = [];
+  
+  for (let v of n) {
+    nodes.push(new ListNode(v));
+  }
+  for (let i = 0; i < nodes.length-1; i++) {
+    nodes[i].next = nodes[i+1];
   }
 
-  n1 = n1.split("");
-  n1.reverse();
-  n1 = n1.join("");
-  return parseInt(n1);
+  return nodes[0];
 }
 
-function createListFromArray(array)
 {
-  arr = [];
-  for (var i = 0; i < array.length; i++)
-    arr.push(new ListNode(array[i]));
-  for (var i = 0; i < arr.length; i++)
-  {
-    if (i == (arr.length-1))
-      continue;
-    arr[i].next = arr[i+1];
-  }
-  return (arr);
-}
-
-function numberToReversedList(nbr)
-{
-  nbr = nbr.toString()
-  nbr = nbr.split("");
-  nbr.reverse();
-  return (createListFromArray(nbr));
-}
-
-var addTwoNumbers = function(l1, l2) 
-{
-    let n1 = reversedListToNumber(l1);
-    let n2 = reversedListToNumber(l2);
-    var result = numberToReversedList(n1+n2);
-    return (result[0]);
-}
-    
-// var addTwoNumbers = function(l1, l2) {
-//   let head, c= head,  one = l1, two = l2, carry = 0;
-
-
-//   while(one || two) {
-//       let x = 0, y = 0, sum = carry, next, tmpNode;
-//       if(one.val){
-//           x = one.val;
-//       }
-//       if(two.val){
-//           y = two.val;
-//       }
-//       sum += x + y;
-//       carry = Math.floor(sum / 10);
-//       next = sum % 10;
-//       tmpNode = new ListNode(next);
-//       if(head == null){
-//           head =  new ListNode(next);
-//           c = head;
-//       }else{
-//           c.next = tmpNode;
-//           c = c.next;
-//       }
-//     if(one.next != null){
-//       one = one.next;
-//     }else{
-//       one = false
-//     }
-//     if(two.next != null){
-//       two = two.next;
-//     }else{
-//       two = false
-//     }
-//   }
-//   if(carry > 0){
-//       let tmpNode= new ListNode(carry);
-//       c.next = tmpNode;
-//   }
-//   return head;
-// };
 let l1 = new ListNode(2);
 let l2 = new ListNode(4);
 let l3 = new ListNode(3);
 
-l1.next = l2;
-l2.next = l3;
-
+l1.next = l2, l2.next = l3;
 
 let l4 = new ListNode(5);
 let l5 = new ListNode(6);
 let l6 = new ListNode(4);
 
-l4.next = l5;
-l5.next = l6;
+l4.next = l5, l5.next = l6;
+// console.log(reversed_list_int_representation(l1));
+// console.log(reversed_list_int_representation(l4));
+// console.log(int_to_reversed_list(807));
 
 console.log(addTwoNumbers(l1, l4));
 
+}
+/* 
+  1. Function to turn Linked list representation of a reversed number into an Integer.
+  2. Function to turn Integer into reversed linked list number representation.
+*/
